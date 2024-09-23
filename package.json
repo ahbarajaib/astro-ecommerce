@@ -1,0 +1,13 @@
+{
+  "name": "astro-ecommerce",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "concurrently \"npm run develop --prefix strapi-backend\" \"npm run dev --prefix astro-frontend\"",
+    "strapi": "npm run develop --prefix strapi-backend",
+    "astro": "npm run dev --prefix astro-frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}

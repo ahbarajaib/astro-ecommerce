@@ -1,0 +1,87 @@
+---
+import MainLayout from "../layouts/MainLayout.astro"
+import Product from "../components/product.astro"
+
+const response  = await fetch('http://localhost:1337/api/products?populate=*');
+const data = await response.json();
+console.log(data)
+
+
+const premiumWatches:Watch[] = data.data.map((product: any) => ({
+  id: product.id,
+  title: product.attributes.Title,
+  price: product.attributes.Price,
+  imageUrl: product.attributes.Image.data[0]?.attributes.formats.medium.url || '',
+}));
+
+console.log(premiumWatches)
+interface Watch {
+  title: string;
+  image: string;  // URL to the image of the watch
+  price: number;  // Price in USD
+}
+
+// const premiumWatches: Watch[] = [
+//   {
+//     title: "Rolex Daytona",
+//     image: "/watches/rolex-daytona.jpg",
+//     price: 97000,
+//   },
+//   {
+//     title: "Patek Philippe Nautilus",
+//     image: "/watches/patek-phillippe-nautilus.jpg",
+//     price: 19000,
+//   },
+//   {
+//     title: "Audemars Piguet Royal Oak",
+//     image: "/watches/audemars-piguet-royal-oak.jpg",
+//     price: 55000,
+//   },
+//   {
+//     title: "Omega Speedmaster",
+//     image: "/watches/omega-speedmaster.jpg",
+//     price: 7000,
+//   },
+//   {
+//     title: "Tag Heuer Carrera",
+//     image: "/watches/tag-heuer-carrera.jpg",
+//     price: 5000,
+//   },
+//   {
+//     title: "Richard Mille RM 011",
+//     image: "/watches/richard-mille-rm.jpg",
+//     price: 25000,
+//   },
+//   {
+//     title: "Hublot Big Bang",
+//     image: "/watches/hublot-big-bang.jpg",
+//     price: 24000,
+//   },
+//   {
+//     title: "Breitling Navitimer",
+//     image: "/watches/breitling-navitimer.jpg",
+//     price: 8000,
+//   },
+//   {
+//     title: "IWC Portugieser",
+//     image: "/watches/iwc-portugieser.jpg",
+//     price: 12000,
+//   },
+//   {
+//     title: "Jaeger-LeCoultre Reverso",
+//     image: "/watches/jaeger-lecoultre-reverso.jpg",
+//     price: 9000,
+//   },
+// ];
+
+---
+
+<MainLayout>
+<h1 class="text-4xl font-bold mb-8 text-center">Premium Watches</h1>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" >
+  {premiumWatches.map((watch,index)=>(
+<Product title={watch.title} image={watch.image} price={watch.price}/>
+
+  ))}
+</div>
+</MainLayout>
